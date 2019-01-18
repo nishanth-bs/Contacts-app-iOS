@@ -9,16 +9,24 @@
 import UIKit
 
 protocol UpdateNameDelegateProtocol {
-    func userUpdatedName(name: String)
+    func userUpdatedName(position: Int, enteredData: Person) -> Bool
+}
+
+protocol DeleteNameDelegateProtocol {
+    func userDeletedName(position: Int) -> Bool
 }
 
 class DetailViewController: UIViewController {
+    
+    //use optionals everywhere
+    
     var contactName: String = ""
     var contactPhoneNumber: String = ""
     var contactLastName : String = ""
     var editable: Bool = false
     var selectedIndexRow: Int = 0
-    
+    var updatedName: UpdateNameDelegateProtocol?
+    var deletedName: DeleteNameDelegateProtocol?
    
     @IBOutlet weak var phoneNumberTextField: UITextField!
     @IBOutlet weak var updateButton: UIButton!
@@ -29,6 +37,9 @@ class DetailViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         //lastnameTextField.text = contactNamesList[selectedRow]
+        
+        //viewDidLoad should have less statements
+        
         firstnameTextField.text =  contactName
         lastnameTextField.text = contactLastName
         phoneNumberTextField.text = contactPhoneNumber
@@ -55,31 +66,36 @@ class DetailViewController: UIViewController {
             let enteredData : Person = Person(firstName: firstName, lastName: lastnameTextField.text!, phoneNumber: phoneNumberTextField.text!)
         }
         
-        let enteredData : Person = Person(firstName: firstnameTextField.text, lastName: lastnameTextField.text!, phoneNumber: phoneNumberTextField.text!)
-        
-        if DataModel.updateAt(position: selectedIndexRow, enteredData: enteredData){
-            //show success
-            let alert = UIAlertController(title: "Success!", message: "Contact updated", preferredStyle: UIAlertControllerStyle.alert)
-            //alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-                switch action.style{
-                case .default:
-                    print("default")
-                    self.navigationController?.popViewController(animated: true)
-                case .cancel:
-                    print("cancel")
-                    
-                case .destructive:
-                    print("destructive")
-                    
-                }}))
-        }else{
-            let alert = UIAlertController(title: "Error!", message: "Contact not updated! Please try again.", preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-            
+        let enteredData : Person = Person(firstName: firstnameTextField.text!, lastName: lastnameTextField.text!, phoneNumber: phoneNumberTextField.text!)
+        if let success = updatedName?.userUpdatedName(position: selectedIndexRow, enteredData: enteredData){
+            if success{
+                //show success
+                let alert = UIAlertController(title: "Success!", message: "Contact updated", preferredStyle: UIAlertControllerStyle.alert)
+                //alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                    switch action.style{
+                    case .default:
+                        print("default")
+                        self.navigationController?.popViewController(animated: true)
+                    case .cancel:
+                        print("cancel")
+                        
+                    case .destructive:
+                        print("destructive")
+                        
+                    }}))
+            }else{
+                
+                //minimise code duplication
+                
+                let alert = UIAlertController(title: "Error!", message: "Contact not updated! Please try again.", preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+                
+            }
         }
+        
         
         
         
@@ -90,37 +106,42 @@ class DetailViewController: UIViewController {
     }
     
     @IBAction func deleteButtonPressed(_ sender: UIBarButtonItem) {
-        if DataModel.removeAt(position: selectedIndexRow){
-            //show Success and go back
-            //show success
-            let alert = UIAlertController(title: "Success!", message: "Contact deleted", preferredStyle: UIAlertControllerStyle.alert)
-            //alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-                switch action.style{
-                case .default:
-                    print("default")
-                    self.navigationController?.popViewController(animated: true)
-                case .cancel:
-                    print("cancel")
-                    
-                case .destructive:
-                    print("destructive")
-                    
-                }}))
-            
-        }else{
-            //show error and stay
-            let alert = UIAlertController(title: "Error!", message: "Contact not deleted! Please try again.", preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
+        if let success = deletedName?.userDeletedName(position: selectedIndexRow){
+            if success{
+                //show Success and go back
+                //show success
+                let alert = UIAlertController(title: "Success!", message: "Contact deleted", preferredStyle: UIAlertControllerStyle.alert)
+                //alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                    switch action.style{
+                    case .default:
+                        print("default")
+                        self.navigationController?.popViewController(animated: true)
+                    case .cancel:
+                        print("cancel")
+                        
+                    case .destructive:
+                        print("destructive")
+                        
+                    }}))
+                
+            }else{
+                //show error and stay
+                let alert = UIAlertController(title: "Error!", message: "Contact not deleted! Please try again.", preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+            }
         }
+       
        // DataModel.dataModel.remove(at: selectedIndexRow)
        // navigationController?.popViewController(animated: true)
         
         
     }
     @IBAction func goBackButtonPressed(_ sender: Any) {
-        navigationController?.popViewController(animated: true)
+        self.navigationController?.popViewController(animated: true)
     }
+    
+            
 }

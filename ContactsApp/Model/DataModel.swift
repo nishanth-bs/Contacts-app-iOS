@@ -10,107 +10,110 @@ import UIKit
 import CoreData
 
 class DataModel {
-    static var dataModel: [Person] = []
+    var dataModel: [Person] = []
     
-    static func add(_ enteredData: Person) -> Bool{
+     func add(_ enteredData: Person) -> Bool{
         
         if Validation.isValidString(enteredData.firstName) &&
             Validation.isValidString(enteredData.lastName) &&
             Validation.isValidPhoneNumber(enteredData.phoneNumber) &&
             Validation.isNotDuplicate(dataModel,enteredData){
-            //dataModel.append(enteredData)
-            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return false}
-            
-            // create context from the container
-            let managedContext = appDelegate.persistentContainer.viewContext
-            // 2
-            let entity = NSEntityDescription.entity(forEntityName: "IndividualContact", in: managedContext)!
-            let person = NSManagedObject(entity: entity, insertInto: managedContext)
-            person.setValue(enteredData.firstName, forKeyPath: "firstName")
-            person.setValue(enteredData.lastName, forKeyPath: "lastName")
-            person.setValue(enteredData.phoneNumber, forKeyPath: "phoneNumber")
-            
-            // 4
-            do {
-                try managedContext.save()
-                read()
-                //people.append(person)
-            } catch let error as NSError {
-                print("Could not save. \(error), \(error.userInfo)")
-                return false
-            }
+            dataModel.append(enteredData)
+//            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return false}
+//
+//            // create context from the container
+//            let managedContext = appDelegate.persistentContainer.viewContext
+//            // 2
+//            let entity = NSEntityDescription.entity(forEntityName: "IndividualContact", in: managedContext)!
+//            let person = NSManagedObject(entity: entity, insertInto: managedContext)
+//            person.setValue(enteredData.firstName, forKeyPath: "firstName")
+//            person.setValue(enteredData.lastName, forKeyPath: "lastName")
+//            person.setValue(enteredData.phoneNumber, forKeyPath: "phoneNumber")
+//
+//            // 4
+//            do {
+//                try managedContext.save()
+//                read()
+//                //people.append(person)
+//            } catch let error as NSError {
+//                print("Could not save. \(error), \(error.userInfo)")
+//                return false
+//            }
             return true
         }
         return false
     }
     
-    static func updateAt(position: Int, enteredData: Person) -> Bool{
+    func updateAt(position: Int, enteredData: Person) -> Bool{
         if Validation.isValidString(enteredData.firstName) &&
             Validation.isValidString(enteredData.lastName) &&
             Validation.isValidPhoneNumber(enteredData.phoneNumber) &&
             Validation.isNotDuplicate(dataModel,enteredData){
             do{
-                //dataModel[position] = enteredData
-                guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return false }
-                let managedContext = appDelegate.persistentContainer.viewContext
-                
-                let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "IndividualContact")
-                fetchRequest.predicate = NSPredicate(format: "firstName= %@", dataModel[position].firstName)
-                
-                do{
-                    let test = try managedContext.fetch(fetchRequest)
-                    
-                    let objectiveUpdate = test[0] as! NSManagedObject
-                    objectiveUpdate.setValue(enteredData.firstName, forKey: "firstName")
-                    objectiveUpdate.setValue(enteredData.lastName, forKey: "lastName")
-                    objectiveUpdate.setValue(enteredData.phoneNumber, forKey: "phoneNumber")
-                    do{
-                        try managedContext.save()
-                        read()
-                    }catch{
-                        return false
-                    }
-                }catch{
-                    return false
-                }
+                dataModel[position] = enteredData
+//                guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return false }
+//                let managedContext = appDelegate.persistentContainer.viewContext
+//
+//                let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "IndividualContact")
+//                fetchRequest.predicate = NSPredicate(format: "firstName= %@", dataModel[position].firstName)
+//
+//                do{
+//                    let test = try managedContext.fetch(fetchRequest)
+//
+//                    let objectiveUpdate = test[0] as! NSManagedObject
+//                    objectiveUpdate.setValue(enteredData.firstName, forKey: "firstName")
+//                    objectiveUpdate.setValue(enteredData.lastName, forKey: "lastName")
+//                    objectiveUpdate.setValue(enteredData.phoneNumber, forKey: "phoneNumber")
+//                    do{
+//                        try managedContext.save()
+//                        read()
+//                    }catch{
+//                        return false
+//                    }
+//                }catch{
+//                    return false
+//                }
                 return true
+//            }catch{
+//                return false
+//            }
             }catch{
                 return false
-            }
+            }//comment this when uncommenting the rest
         }
 return false
     }
-    
-    static func removeAt(position: Int) -> Bool{
-        do{
-            //dataModel.remove(at: position)
-            //dataModel[position] = enteredData
-            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return false }
-            let managedContext = appDelegate.persistentContainer.viewContext
-            let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "IndividualContact")
-            fetchRequest.predicate = NSPredicate(format: "firstName= %@", dataModel[position].firstName)
 
-            do{
-                let test = try managedContext.fetch(fetchRequest)
-                let objectToDelete = test[0] as! NSManagedObject
-                managedContext.delete(objectToDelete)
-                
-                do{
-                    try managedContext.save()
-                    read()
-                }catch{
-                    return false
-                }
-            }catch{
-                return false
-            }
+    func removeAt(position: Int) -> Bool{
+        do{
+            dataModel.remove(at: position)
+//            dataModel[position] = enteredData
+//            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return false }
+//            let managedContext = appDelegate.persistentContainer.viewContext
+//            let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "IndividualContact")
+//            fetchRequest.predicate = NSPredicate(format: "firstName= %@", dataModel[position].firstName)
+//
+//            do{
+//                let test = try managedContext.fetch(fetchRequest)
+//                let objectToDelete = test[0] as! NSManagedObject
+//                managedContext.delete(objectToDelete)
+//
+//                do{
+//                    try managedContext.save()
+//                    read()
+//                }catch{
+//                    return false
+//                }
+//            }catch{
+//                return false
+//            }
             return true
         }catch{
             return false
         }
     }
     
-    static func read(){
+    func read(){
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate
             else { return }
         

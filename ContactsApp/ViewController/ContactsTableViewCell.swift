@@ -13,6 +13,6 @@ class ContactsTableViewCell: UITableViewCell {
     @IBOutlet weak var contactsName: UILabel!
     @IBOutlet weak var contactsPhoneNumber: UILabel!
     
-   
+   //didSet
 
 }

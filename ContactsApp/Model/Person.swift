@@ -9,6 +9,9 @@
 import Foundation
 
 class Person{
+    
+    //optionals to be used while declaring variables
+    
     var firstName: String
     var lastName: String
     var phoneNumber: String
