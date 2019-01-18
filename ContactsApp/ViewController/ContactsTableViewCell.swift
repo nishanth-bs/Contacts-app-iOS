@@ -14,5 +14,14 @@ class ContactsTableViewCell: UITableViewCell {
     @IBOutlet weak var contactsPhoneNumber: UILabel!
     
    //didSet
-
+    var data: Person?{
+        didSet{
+            if let name = data?.firstName, let nameLast = data?.lastName, let phoneNumber = data?.phoneNumber{
+                contactsName.text = name + " " + nameLast
+                contactsPhoneNumber.text = phoneNumber
+            }
+            
+        }
+    }
+    
 }

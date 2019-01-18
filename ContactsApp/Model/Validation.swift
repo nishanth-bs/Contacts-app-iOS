@@ -11,6 +11,13 @@ import  UIKit
 import CoreData
 class Validation {
     
+    static func validatePerson(_ arr: [Person], _ obj: Person) -> Bool{
+        if let a = obj.firstName, let b = obj.lastName, let c = obj.phoneNumber{
+             return isValidString(a) && isValidString(b) && isValidPhoneNumber(c) && isNotDuplicate(arr, obj)
+        }
+        return false
+    }
+ 
     static func isValidString(_ value: String) -> Bool{
         var result : Bool = true
         let characterset = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")

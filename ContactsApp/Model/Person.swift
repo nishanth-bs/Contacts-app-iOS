@@ -12,9 +12,9 @@ class Person{
     
     //optionals to be used while declaring variables
     
-    var firstName: String
-    var lastName: String
-    var phoneNumber: String
+    var firstName: String?
+    var lastName: String?
+    var phoneNumber: String?
     
     init(firstName: String, lastName: String, phoneNumber: String) {
         self.firstName = firstName

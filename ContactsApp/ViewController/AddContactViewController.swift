@@ -9,7 +9,7 @@
 import UIKit
 
 //protocol contain shouldn't contain delegate
-protocol CreateNameDelegateProtocol {
+protocol CreateNameProtocol {
     func userCreatedName(enteredData: Person) -> Bool
 }
 
@@ -20,48 +20,50 @@ class AddContactViewController: UIViewController {
     @IBOutlet weak var addPhoneNumber: UITextField!
     @IBOutlet weak var addEmail: UITextField!
     
-    //delegate name to be suffixed with delegate
-    var createdName: CreateNameDelegateProtocol?
+    var createdNameProtocolDelegate: CreateNameProtocol?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         addEmail.isEnabled = false
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
-
+    
+    func showAlert(titleAction: String, titleMessage: String, status: Int){
+        let alert = UIAlertController(title: titleAction, message: titleMessage, preferredStyle: UIAlertControllerStyle.alert)
+        if status == 0{
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                switch action.style{
+                case .default:
+                    print("default")
+                    self.navigationController?.popViewController(animated: true)
+                case .cancel:
+                    print("cancel")
+                    
+                case .destructive:
+                    print("destructive")
+                    
+                }}))
+        }else if status == 1{
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+        }
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     @IBAction func createButtonPressed(_ sender: UIButton) {
         let firstName = addFirstName.text!
         let lastName = addLastName.text!
         let phoneNumber = addPhoneNumber.text!
         
-        let enteredData = Person(firstName: firstName, lastName: lastName, phoneNumber: phoneNumber)
+        let enteredData: Person = Person(firstName: firstName, lastName: lastName, phoneNumber: phoneNumber)
         
-        if let success = createdName?.userCreatedName(enteredData: enteredData){
+        if let success = createdNameProtocolDelegate?.userCreatedName(enteredData: enteredData){
             if success{
-                let alert = UIAlertController(title: "Success!", message: "Contact added", preferredStyle: UIAlertControllerStyle.alert)
-                //alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
-                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-                    switch action.style{
-                    case .default:
-                        print("default")
-                        self.navigationController?.popViewController(animated: true)
-                    case .cancel:
-                        print("cancel")
-                        
-                    case .destructive:
-                        print("destructive")
-                        
-                    }}))
+                showAlert(titleAction: "Success!", titleMessage: "Contact added", status: 0)
             }else{
-                let alert = UIAlertController(title: "Error!", message: "Contact not added! Please check again.", preferredStyle: UIAlertControllerStyle.alert)
-                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
+                showAlert(titleAction: "Error!", titleMessage: "Contact not add! Please check again.", status: 1)
             }
         }
     }

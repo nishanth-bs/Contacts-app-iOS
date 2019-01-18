@@ -99,7 +99,6 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="4o6-vV-cO7">
                             <connections>
                                 <action selector="addButtonPressed:" destination="BYZ-38-t0r" id="fbU-AF-RWn"/>
-                                <segue destination="3rC-CU-Q3K" kind="show" identifier="" id="Y4O-Dk-M8J"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -212,19 +211,19 @@
         <!--Add-->
         <scene sceneID="MLX-NI-vdG">
             <objects>
-                <viewController storyboardIdentifier="AddContactViewController.swift" title="Add" id="3rC-CU-Q3K" customClass="AddContactViewController" customModule="ContactsApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AddContactViewController" title="Add" id="3rC-CU-Q3K" customClass="AddContactViewController" customModule="ContactsApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cj2-lt-M62">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Firstname" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5u8-it-Vi3">
-                                <rect key="frame" x="10" y="89" width="355" height="30"/>
+                                <rect key="frame" x="10" y="45" width="355" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Lastname" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UsH-Br-D64">
-                                <rect key="frame" x="10" y="129" width="355" height="35"/>
+                                <rect key="frame" x="10" y="85" width="355" height="35"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="35" id="rV1-hf-sEa"/>
                                 </constraints>
@@ -233,7 +232,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Mobile number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9ht-Kz-L3W">
-                                <rect key="frame" x="10" y="174" width="355" height="35"/>
+                                <rect key="frame" x="10" y="130" width="355" height="35"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="35" id="nvI-dt-kMr"/>
                                 </constraints>
@@ -242,7 +241,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mQL-jC-ICd">
-                                <rect key="frame" x="10" y="219" width="355" height="35"/>
+                                <rect key="frame" x="10" y="175" width="355" height="35"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="35" id="uLq-tS-Ti8"/>
                                 </constraints>
@@ -251,7 +250,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pkC-Fw-CnL">
-                                <rect key="frame" x="164.5" y="274" width="46" height="30"/>
+                                <rect key="frame" x="164.5" y="230" width="46" height="30"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Create"/>
                                 <connections>
